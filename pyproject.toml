@@ -19,6 +19,9 @@ classifiers = [
 ]
 dependencies = []
 
+[project.scripts]
+doc-metadata-enricher = "doc_metadata_enricher.__main__:main"
+
 [project.urls]
 Homepage = "https://github.com/Trysac/u111-doc-metadata-enricher"
 Source = "https://github.com/Trysac/u111-doc-metadata-enricher"

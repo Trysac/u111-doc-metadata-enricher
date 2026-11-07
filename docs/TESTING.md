@@ -7,14 +7,13 @@ uv run pytest --cov=doc_metadata_enricher   # tests with coverage report
 uv run python scripts/check.py      # every gate, as CI and the factory run it
 ```
 
-## Policy
+## Tests
 
-- Branch coverage of `src/doc_metadata_enricher` must stay at or above 80 %; the gate fails below it.
-- Tests exercise the public API (`import doc_metadata_enricher`) and assert every observable effect:
-  return values, raised exceptions and their messages.
-- Each bug fix starts with a failing test that reproduces it.
-- Tests are deterministic: no network, no wall clock, no dependence on test order.
+Tests are located in `tests/test_doc_metadata_enricher.py`. They cover:
 
-## Layout
-
-`tests/test_<module>.py` mirrors each public module. Shared fixtures go in `tests/conftest.py`.
+- **Acceptance**: Validating field precedence (Frontmatter > HTML > Heuristics > Detectors).
+- **Date Parsing**: Validating supported formats and rejection of ambiguous all-numeric formats.
+- **Language Detection**: Testing stopword frequency heuristics for supported languages (en, es, fr, de, pt).
+- **Entity Extraction**: Validating email and URL regexes, offset calculation, and deduplication logic.
+- **Limits**: Ensuring `max_input_chars` and `max_entities` correctly trigger truncation and errors.
+- **Edge Cases**: Empty input, malformed HTML, email/URL overlaps, and CRLF line endings.

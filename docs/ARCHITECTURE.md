@@ -1,29 +1,12 @@
 # Architecture
 
-## Purpose
+`doc-metadata-enricher` provides a unified document enrichment pipeline with deterministic field extraction and explicit provenance tracking.
 
-`trysac-doc-metadata-enricher` is a small, dependency-free Python library: Extract title, author, date, language and email, URL and date entities from text, Markdown and HTML with explicit provenance per field and bounded input
+## Ingestion Precedence
 
-## Shape
+Fields are evaluated in strict priority order:
 
-```text
-caller code --> doc_metadata_enricher (public API in __init__.py)
-                    |
-                    +-- pure functions, no I/O, no global state
-```
-
-- **Public API**: the names listed in `__all__` of `src/doc_metadata_enricher/__init__.py`. Anything else is
-  internal and may change without a major version.
-- **Errors**: invalid input raises built-in exceptions (`ValueError`, `TypeError`) with a clear
-  message; the library never prints or exits.
-- **Side effects**: none. If a feature needs I/O, isolate it in its own module behind a small
-  interface and record the choice in an ADR.
-
-## Quality contract
-
-`scripts/check.py` is the single definition of the gates; `fabrica.json` tells the factory and CI
-how to run it. See [TESTING.md](TESTING.md).
-
-## Decisions
-
-Architecture decisions are recorded in [decisions/](decisions/) as numbered ADRs.
+1. **Markdown Frontmatter**: Delimited by `---` header and trailer lines at the start. Extracts `title`, `author`, `date`, `lang`/`language`.
+2. **HTML Meta Tags**: Parsed via `html.parser`. Includes `<title>`, `<meta name="author">`, `<meta name="date">`, `<meta property="article:published_time">`, and `<html>` lang attributes. Content from `<script>`, `<style>`, and `<template>` is strictly ignored.
+3. **Body Heuristics**: Fallbacks to Markdown headings (`# `), standard text title lines (<= 120 chars), signature lines like `By ...`, and dates within the first 2,000 characters.
+4. **Language Detection**: Prioritizes an injected custom detector, then falls back to a deterministic 5-language stopword frequency evaluator.

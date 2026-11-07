@@ -9,4 +9,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Implement doc-metadata-enricher for multi-format metadata extraction with provenance tracking and bounded entity extraction.
 - Initial project structure from the factory utility template.

@@ -2,18 +2,9 @@
 
 ## Threat model
 
-`trysac-doc-metadata-enricher` is a pure library without I/O. The main risks are:
+`trysac-doc-metadata-enricher` is a pure library without I/O. 
 
-- **Supply chain**: a compromised dependency or CI action. Mitigation: no runtime dependencies,
-  Dependabot weekly updates, actions pinned to major versions, minimal workflow permissions.
-- **Leaked secrets**: tokens committed by mistake. Mitigation: `gitleaks` runs in the local gates
-  and in CI; `.env` files are git-ignored.
-- **Untrusted input**: callers may pass hostile strings. Mitigation: validate input and fail with
-  explicit exceptions; never `eval`, `exec` or deserialize untrusted data.
-
-## Publishing
-
-Releases are published to PyPI with trusted publishing (OIDC) when available, never with a
-long-lived token stored in the repository.
-
-To report a vulnerability, see [SECURITY.md](../SECURITY.md).
+- **Untrusted input**: Callers may pass hostile strings. We defend this by strictly validating input and failing with explicit `MetadataError` exceptions. Messages are truncated at 200 characters to prevent log injection or memory exhaustion.
+- **Resource exhaustion**: Mitigation is built-in. Inputs are bounded by `max_input_chars` (default 2,000,000) and extracted entity counts are bounded by `max_entities` (default 1000).
+- **Supply chain**: No runtime dependencies are used. All actions are pinned to major versions.
+- **Code execution**: Never `eval`, `exec` or deserialize untrusted data. We use only standard-library modules `html.parser`, `re`, and `unicodedata`.

@@ -1,16 +1,13 @@
 # doc-metadata-enricher
 
-> Extract title, author, date, language and email, URL and date entities from text, Markdown and HTML with explicit provenance per field and bounded input Python package `trysac-doc-metadata-enricher`, import name `doc_metadata_enricher`, MIT licensed,
-> Python >= 3.10, no runtime dependencies.
+Extract title, author, date, language and email, URL and date entities from text, Markdown and HTML with explicit provenance per field and bounded input. Python package `doc_metadata_enricher` (import name `doc_metadata_enricher`), MIT licensed, Python >= 3.10, zero dependencies.
 
 ## Docs
 
 - [README](README.md): problem, install, usage example
-- [AGENTS](AGENTS.md): commands, folder map, conventions, limits
-- [Architecture](docs/ARCHITECTURE.md): shape of the package and its public API
-- [Testing](docs/TESTING.md): how to run and extend the tests
+- [Architecture](docs/ARCHITECTURE.md): precedence model and API
+- [Testing](docs/TESTING.md): test suite structure and coverage policies
 
-## Optional
+## Stack
 
 - [Stack](docs/STACK.md): tools used and discarded
-- [Changelog](CHANGELOG.md): release history

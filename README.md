@@ -4,8 +4,10 @@ Documents ingested for search arrive with metadata in different places: Markdown
 
 ## Installation
 
+Not published to PyPI yet. Install it from GitHub:
+
 ```bash
-pip install trysac-doc-metadata-enricher
+pip install "git+https://github.com/Trysac/u111-doc-metadata-enricher"
 ```
 
 ## Usage Example
